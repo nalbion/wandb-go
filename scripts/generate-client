@@ -1,0 +1,19 @@
+#!/usr/bin/bash
+
+set -e
+
+npm install -g get-graphql-schema
+# git clone git@github.com:wandb/wandb.git
+pushd wandb/core/api/graphql
+get-graphql-schema https://api.wandb.ai/graphql > schemas/schema-latest.graphql
+
+# ./generate-graphql.sh
+
+cd ../..
+cp -r internal/api ../../internal/api/proto
+cp -r internal/filestream ../../internal/api/proto
+mkdir -p ../../internal/api/wboperation
+cp internal/wboperation/wboperation.go ../../internal/api/wboperation
+
+popd
+# rm -rf wandb
